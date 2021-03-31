@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Level3 {
 
-    private static String data = "30,69 L,L,D,D,R,R,R,R,U,U,U,R,R,D,D,R,R,R,U,U,R,R,D,D,R,R,U,R,D,R,R,U,U,R,R,D,D,R,R,R,U,U,R,R,D,D,R,R,U,U,R,R,R,R,R,U,U,U,L,L,L,D,L,U,U,U,R,U,R,U,U,R,R,R,D,D,L,D,R,R,D,D,D,D,D,D,D,L,L,L,L,L,D,R,R,R,D,R,D,D,D,D,D,D,D,D,D,D,D,D,D,L,D,D,D,D,R,D,D,D,L,D,R,D,L,D,R,R,D,L,L,L,L,U,L,L,L,U,L,D,L,L,L,U,L,D,L,L,U,U,L,U,R,R,R,R,R,R,R,R,R,R,R,D,L,L,L,L,L,L,L,L,L,D\n" +
+    private static final String data = "30,69 L,L,D,D,R,R,R,R,U,U,U,R,R,D,D,R,R,R,U,U,R,R,D,D,R,R,U,R,D,R,R,U,U,R,R,D,D,R,R,R,U,U,R,R,D,D,R,R,U,U,R,R,R,R,R,U,U,U,L,L,L,D,L,U,U,U,R,U,R,U,U,R,R,R,D,D,L,D,R,R,D,D,D,D,D,D,D,L,L,L,L,L,D,R,R,R,D,R,D,D,D,D,D,D,D,D,D,D,D,D,D,L,D,D,D,D,R,D,D,D,L,D,R,D,L,D,R,R,D,L,L,L,L,U,L,L,L,U,L,D,L,L,L,U,L,D,L,L,U,U,L,U,R,R,R,R,R,R,R,R,R,R,R,D,L,L,L,L,L,L,L,L,L,D\n" +
             "20,45 R,D,L,L,L,L,L,U,L,D,L,U,U,U,L,U,U,U,U,U,L,U,R,U,L,L,U,L,L,D,L,U,L,L,D,D,L,D,L,U,U,U,L,L,D,D,D,D,D,D,D,D,D,R,D,R,D,L,D,R,D,R,D,D,D,L,D,R,D,D,L,L,D,D,D,L,D,R,R,D,D,D,D,D,R,D,R,U,U,U,R,U,L,U,U,R,U,U,R,R,U,R,R,R,R,R,D,R,D,D,D,R,D,L,D,D,R,R,R,R,D,R,U,R,D,D,R,R,R,U,U,U,R,R,R,U,R,R,R,D,R,U,R,D,R,R,U,R,R,R,R,D,R,R,R,R,R,R,R,U,R,R,D,R,R,R,U,R,D,R,U,R,D,R,U,R,D\n" +
             "20,60 U,U,L,U,R,R,U,R,D,D,R,D,L,D,R,R,R,R,U,R,R,R,R,R,R,R,D\n" +
             "85,101 L,L,U,U,R,R,R,R,D,R,U,R,R,D,R,R,U,R,R,R,D,R,U,R,R,R,D,R,U,R,R,R,R,R,R,R,U,R,R,U,U,L,U,L,U,U,L,U,L,D,L,D,L,L,D,L,U,L,D,L,L,U,L,L,L,U,U,R,R,R,U,R,D,R,R,U,U,U,R,U,R,U,L,U,L,L,L,L,L,D,D,D,R,R,U,R,D,D,L,L,L,L,L,L,L,D,D,L,D,R,D,L,L,D,L,U,U,U,U,U,U,U,U,U,R,R,D,R,U,U,U,L,U,U,R,R,R,R,R,R,R,U,R,U,U,R,R,R,D,D,D,R,R,U,U,U,U,U,U,U,U,U,L,L,U,L,D,D,D,D,R,D,L,L,L,L,L,D,L,D,L,U,L,D,D,L,L,U,L,D,L,L,U,L,D,D,L,D,R,R,D,D,L,L,D,D,L,L,U,L,U,R,U,L,L,U,L,U,L,D,D,L,D,D,D,L,L,U,L,U,R,U,L,L,U,U,L,L,L,L,L,D,L,L,D,L,L,U,U,U,U,U,L,U,R,R,R,R,U,U,L,U,R,U,L,L,U,L,L,U,L,L,U,U,R,R,R,U,U,R,R,D,D,R,D,D,R,U,U,U,R,U,U,U,U,R,R,R,D,R,D,R,D,R,D,R,U,U,U,U,L,U,L,U,U,R,R,U,U,U,U,R,R,R,U,U,L,L,L,U,U,R,U,L,U,L,L,U,L,L,L,D,D,R,D,L,D,D,R,R,D,D,L,D,D,L,D,D,D,R,U,R,D,D,D,R,D,R,D\n" +
@@ -115,13 +115,13 @@ public class Level3 {
 
     private static final boolean breadthFirst = false;
 
-    private ArrayList<Coordinates> starts = new ArrayList<>();
+    private final ArrayList<Coordinates> starts = new ArrayList<>();
 
-    private ArrayList<Coordinates> ends = new ArrayList<>();
+    private final ArrayList<Coordinates> ends = new ArrayList<>();
 
     private static class Coordinates {
-        private int x;
-        private int y;
+        private final int x;
+        private final int y;
 
         public int getX() {
             return x;
@@ -167,8 +167,8 @@ public class Level3 {
     }
 
     public static class CoordinatesPathPair {
-        private Coordinates coordinates;
-        private Character[] path;
+        private final Coordinates coordinates;
+        private final Character[] path;
 
         public CoordinatesPathPair(Coordinates coordinates, Character[] path) {
             this.coordinates = coordinates;
@@ -178,9 +178,9 @@ public class Level3 {
 
     //boolean order: L R U D
 
-    private HashMap<Coordinates, Boolean[]> nodes = new HashMap<>(6000);
+    private final HashMap<Coordinates, Boolean[]> nodes = new HashMap<>(6000);
 
-    private ArrayList<Coordinates> visited = new ArrayList<>(6000);
+    private final ArrayList<Coordinates> visited = new ArrayList<>(6000);
 
     public static void main(String[] args) {
         new Level3().solve();
