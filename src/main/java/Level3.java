@@ -123,14 +123,6 @@ public class Level3 {
         private final int x;
         private final int y;
 
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
         public Coordinates(int x, int y) {
             this.x = x;
             this.y = y;
@@ -154,19 +146,19 @@ public class Level3 {
             if (this == (other)) return true;
             if (!(other instanceof Coordinates)) return false;
             Coordinates otherC = (Coordinates) other;
-            return this.getX() == otherC.getX() && this.getY() == otherC.getY();
+            return this.x == otherC.x && this.y == otherC.y;
         }
 
         public boolean equals(Coordinates other) {
-            return this.getX() == other.getX() && this.getY() == other.getY();
+            return this.x == other.x && this.y == other.y;
         }
 
         public String toString() {
-            return this.getX() + " " + this.getY();
+            return this.x + " " + this.y;
         }
     }
 
-    public static class CoordinatesPathPair {
+    private static class CoordinatesPathPair {
         private final Coordinates coordinates;
         private final Character[] path;
 
