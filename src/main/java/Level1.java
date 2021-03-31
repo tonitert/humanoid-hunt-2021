@@ -25,16 +25,16 @@ public class Level1 {
             int i = 0;
             while (true) {
                 String sub = s.substring(i, i + 8);
-                int b = Integer.parseInt(sub, 2);
-                if (b < byteLen) {
+                int parsedByte = Integer.parseInt(sub, 2);
+                if (parsedByte < byteLen) {
                     if (!validFound) {
                         validFound = true;
                     }
-                    i = b * 8;
+                    i = parsedByte * 8;
                     continue;
                 }
-                if (b >= byteLen && validFound) {
-                    bytes[j] = b;
+                if (parsedByte >= byteLen && validFound) {
+                    bytes[j] = parsedByte;
                     break;
                 }
                 i = i + 8;
