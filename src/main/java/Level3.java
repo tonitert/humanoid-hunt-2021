@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 public class Level3 {
 
@@ -115,6 +113,8 @@ public class Level3 {
             "29,25 L,D,D,D,D,D,D,D,L,U,U,U,U,U,U,U,U,R,R,R,D,R,R,D\n" +
             "25,95 R,U,R,D,R,U,R,U,U,L,L,L,U,U,U,U,L,L,D";
 
+    private static final boolean breadthFirst = false;
+
     private ArrayList<Coordinates> starts = new ArrayList<>();
 
     private ArrayList<Coordinates> ends = new ArrayList<>();
@@ -134,6 +134,10 @@ public class Level3 {
         public Coordinates(int x, int y) {
             this.x = x;
             this.y = y;
+        }
+
+        public Coordinates add(Coordinates coordinates) {
+            return add(coordinates.x, coordinates.y);
         }
 
         public Coordinates add(int x, int y) {
@@ -162,6 +166,16 @@ public class Level3 {
         }
     }
 
+    public static class CoordinatesPathPair {
+        private Coordinates coordinates;
+        private Character[] path;
+
+        public CoordinatesPathPair(Coordinates coordinates, Character[] path) {
+            this.coordinates = coordinates;
+            this.path = path;
+        }
+    }
+
     //boolean order: L R U D
 
     private HashMap<Coordinates, Boolean[]> nodes = new HashMap<>(6000);
@@ -173,55 +187,81 @@ public class Level3 {
     }
 
     public void solve() {
+        long ts = System.currentTimeMillis();
         for (String s : data.split("\n")) {
             addNodes(s);
         }
 
-        for (Coordinates start : starts) {
-            step(start, new Character[0]);
+        if (breadthFirst) {
+            Queue<CoordinatesPathPair> queue = new ArrayDeque<>();
+            for (Coordinates start : starts) {
+                queue.add(new CoordinatesPathPair(start, new Character[0]));
+            }
+            while (!queue.isEmpty()) {
+                for (CoordinatesPathPair pair : step(queue.remove())) {
+                    if (pair == null) continue;
+                    queue.add(pair);
+                }
+            }
+        } else {
+            Stack<CoordinatesPathPair> stack = new Stack<>();
+            for (Coordinates start : starts) {
+                stack.add(new CoordinatesPathPair(start, new Character[0]));
+            }
+            while (!stack.isEmpty()) {
+                for (CoordinatesPathPair pair : step(stack.pop())) {
+                    if (pair == null) continue;
+                    stack.add(pair);
+                }
+            }
         }
+        System.out.println("Solved in " + (System.currentTimeMillis() - ts) + "ms");
     }
 
-    private void step(Coordinates coords, Character[] path) {
+    private final static Coordinates[] INT_TO_COORDINATES_MAP = {
+            new Coordinates(-1, 0),
+            new Coordinates(1, 0),
+            new Coordinates(0, -1),
+            new Coordinates(0, 1)
+    };
+    private static final Character[] INT_TO_CHARACTER_MAP = {
+            'L', 'R', 'U', 'D'
+    };
+
+    /**
+     * @return sparse array of possible next moves
+     */
+    private CoordinatesPathPair[] step(CoordinatesPathPair coordsPath) {
         for (Coordinates end : ends) {
-            if (coords.equals(end)) {
+            if (coordsPath.coordinates.equals(end)) {
                 System.out.println("Path found: ");
-                for (Character character : path) {
+                for (Character character : coordsPath.path) {
                     System.out.print(character);
                 }
                 System.out.println();
             }
         }
-        Boolean[] dirs = nodes.get(coords);
+        Boolean[] dirs = nodes.get(coordsPath.coordinates);
+        CoordinatesPathPair[] toReturn = new CoordinatesPathPair[4];
 
-        if (visited.contains(coords)) {
-            return;
+        if (visited.contains(coordsPath.coordinates)) {
+            return toReturn;
         }
-        visited.add(coords);
+        visited.add(coordsPath.coordinates);
 
         //Possible if there was a wall
         if (dirs == null) {
-            return;
+            return toReturn;
         }
 
-        Character[] nPath = Arrays.copyOf(path, path.length + 1);
-        if (dirs[0]) {
-            nPath[path.length] = 'L';
-            step(coords.add(-1, 0), nPath);
+        for (int i = 0, dirsLength = dirs.length; i < dirsLength; i++) {
+            Boolean bool = dirs[i];
+            if (!bool) continue;
+            Character[] nPath = Arrays.copyOf(coordsPath.path, coordsPath.path.length + 1);
+            nPath[coordsPath.path.length] = INT_TO_CHARACTER_MAP[i];
+            toReturn[i] = new CoordinatesPathPair(coordsPath.coordinates.add(INT_TO_COORDINATES_MAP[i]), nPath);
         }
-        if (dirs[1]) {
-            nPath[path.length] = 'R';
-            step(coords.add(1, 0), nPath);
-        }
-        if (dirs[2]) {
-            nPath[path.length] = 'U';
-            step(coords.add(0, -1), nPath);
-        }
-        if (dirs[3]) {
-            nPath[path.length] = 'D';
-            step(coords.add(0, 1), nPath);
-        }
-
+        return toReturn;
     }
 
     private void addNodeMovement(Coordinates coordinates, String direction) {
